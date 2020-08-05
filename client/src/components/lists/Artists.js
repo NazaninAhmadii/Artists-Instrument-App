@@ -5,6 +5,8 @@ import { GET_ARTISTS } from '../../queries'
 import { List } from 'antd'
 
 import Artist from '../listItems/Artist'
+import AddInstrument from '../forms/AddInstrument'
+
 
 const getStyles = () => ({
   list: {
@@ -21,11 +23,14 @@ const Artists = () => {
   if (error) return `Errror! ${error.message}`
   return (
     <List grid={{ gutter: 20, column: 1 }} style={styles.list}>
+      {data.artists[0] ? (<AddInstrument />) : (<div></div>)
+      }
       {data.artists.map(({ id, firstName, lastName }) => (
         <List.Item key={id}>
           <Artist key={id} id={id} firstName={firstName} lastName={lastName} />
         </List.Item>
       ))}
+
     </List>
   )
 }

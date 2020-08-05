@@ -8,6 +8,8 @@ import Title from './components/layout/Title'
 import { Layout } from 'antd'
 import AddArtist from './components/forms/AddArtist'
 
+
+
 import './App.css'
 import Artists from './components/lists/Artists'
 
@@ -18,16 +20,21 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 })
 
-const App = () => (
-  <ApolloProvider client={client}>
-    <div className='container'>
-      <Content className='App'>
-        <Title />
-        <AddArtist />
-        <Artists />
-      </Content>
-    </div>
-  </ApolloProvider>
-)
+const App = () => {
+
+  return (
+    <ApolloProvider client={client}>
+      <div className='container'>
+        <Content className='App'>
+          <Title />
+          <AddArtist />
+          <Artists />
+        </Content>
+      </div>
+    </ApolloProvider>
+  )
+}
+
+
 
 export default App

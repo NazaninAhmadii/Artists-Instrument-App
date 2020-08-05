@@ -4,6 +4,7 @@ import { Card, List } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
 import UpdateArtist from '../forms/UpdateArtist'
 import RemoveArtist from '../buttons/RemoveArtist'
+import Instruments from '../lists/Instruments'
 
 const getStyles = () => ({
   card: {
@@ -38,7 +39,7 @@ const Artist = props => {
   const handleButtonClick = () => setEditMode(!editMode)
 
   return (
-    <List.Item key={props.id}>
+    <List.Item key={props.id} style={{ border: '2px solid green' }}>
       {editMode ? (
         <UpdateArtist
           id={id}
@@ -48,16 +49,22 @@ const Artist = props => {
           updateStateVariable={updateStateVariable}
         />
       ) : (
-        <Card
-          actions={[
-            <EditOutlined key='edit' onClick={handleButtonClick} />,
-            <RemoveArtist id={id} firstName={firstName} lastName={lastName} />
-          ]}
-          style={styles.card}
-        >
-          {fullName()}
-        </Card>
-      )}
+          <Card
+            title="Name of Artist"
+            actions={[
+              <EditOutlined key='edit' onClick={handleButtonClick} />,
+              <RemoveArtist id={id} firstName={firstName} lastName={lastName} />
+            ]}
+            style={styles.card}
+          >
+            {fullName()}
+
+          </Card>
+        )}
+      <Card size="small" title="List of instruments for this Artist" style={{ borderBottom: 40 }} >
+        <Instruments artistId={id} />
+      </Card>
+
     </List.Item>
   )
 }

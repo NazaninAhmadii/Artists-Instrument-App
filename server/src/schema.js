@@ -101,20 +101,45 @@ const typeDefs = gql`
     lastName: String!
   }
 
+  type Instrument {
+    id: String!
+    year: String!
+    brand: String!
+    type: String!
+    price: String!
+    artistId: String!
+  }
+
   type Query {
-    artists: [Artist]
+    artists: [Artist],
+    instruments: [Instrument],
+    getInstruments(artistId: String!):[Instrument]
   }
 
   type Mutation {
     addArtist(id: String!, firstName: String!, lastName: String!): Artist
     updateArtist(id: String!, firstName: String!, lastName: String!): Artist
     removeArtist(id: String!): Artist
+    addInstrument(id: String!, year: String!, brand: String!, type: String!, price: String!, artistId: String!): Instrument
+    updateInstrument(id: String!, year: String!, brand: String!, type: String!, price: String!, artistId: String!): Instrument
+    removeInstrument(id: String!): Instrument
   }
 `
 
 const resolvers = {
   Query: {
-    artists: () => artists
+    artists: () => artists,
+    instruments: () => instruments,
+    getInstruments(parent, args, context, info) {
+      const instrumentArr = []
+      instruments.map(instrument => {
+        if (instrument.artistId === args.artistId) {
+          instrumentArr.push(instrument)
+        }
+      })
+      return instrumentArr
+
+    }
   },
   Mutation: {
     addArtist: (root, args) => {
@@ -145,6 +170,41 @@ const resolvers = {
         return a.id === removedArtist.id
       })
       return removedArtist
+    },
+    addInstrument: (root, args) => {
+      const newInstrument = {
+        id: args.id,
+        year: args.year,
+        brand: args.brand,
+        type: args.type,
+        price: args.price,
+        artistId: args.artistId
+      }
+      instruments.push(newInstrument)
+      return newInstrument
+    },
+    updateInstrument: (root, args) => {
+      const instrument = find(instruments, { id: args.id })
+      if (!instrument) {
+        throw new Error(`Couldn't find instrument with id ${args.id}`)
+      }
+
+      instrument.year = args.year
+      instrument.brand = args.brand
+      instrument.type = args.type
+      instrument.price = args.price
+      instrument.artistId = args.artistId
+      return instrument
+    },
+    removeInstrument: (root, args) => {
+      const removedInstrument = find(instruments, { id: args.id })
+      if (!removedInstrument) {
+        throw new Error(`Couldn't find instrumnet with id ${args.id}`)
+      }
+      remove(instruments, a => {
+        return a.id === removedInstrument.id
+      })
+      return removedInstrument
     }
   }
 }
