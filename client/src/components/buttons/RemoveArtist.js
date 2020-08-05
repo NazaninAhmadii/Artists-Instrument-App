@@ -45,25 +45,25 @@ const RemoveArtist = ({ id, firstName, lastName }) => {
           }
         }
       })
-      data.getInstruments.map((year, brand, type, price, artistId) => {
-        removeInstrument({
-          variables: {
-            id
-          },
-          optimisticResponse: {
-            __typename: 'Mutation',
-            removeInstrument: {
-              __typename: 'Instrument',
-              id,
-              year,
-              brand,
-              type,
-              price,
-              artistId
-            }
-          }
-        })
-      })
+      // data.getInstruments.map((id, year, brand, type, price, artistId) => {
+      //   removeInstrument({
+      //     variables: {
+      //       id
+      //     },
+      //     optimisticResponse: {
+      //       __typename: 'Mutation',
+      //       removeInstrument: {
+      //         __typename: 'Instrument',
+      //         id,
+      //         year,
+      //         brand,
+      //         type,
+      //         price,
+      //         artistId
+      //       }
+      //     }
+      //   })
+      // })
     }
     console.log(data.getInstruments)
   }
